@@ -6,7 +6,7 @@ var URLSentValue = function() {
 		var domain = "";
 		var path = "";
 
-		var re = /^([^:]*:\/\/)([^\/]*)([^\?]*)?$/;
+		var re = /^([^:]*:\/\/)([^\/]*)([^\?]*)?/;
 		var m = re.exec(url);
 		if(m !== null) {
 			schema = m[1];
