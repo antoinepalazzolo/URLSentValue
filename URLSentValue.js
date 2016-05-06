@@ -39,6 +39,8 @@ var URLSentValue = function() {
 		}
 		else if (this.part === "schema_domain_path") {			
 			return schema + domain + path;
+		} else if (this.part === "full_url") {
+			return url;
 		}
 		else {
 			return "";
@@ -73,7 +75,8 @@ URLSentValue.inputs = [
 				"path" : "path",
 				"schema_domain" : "schema and domain",
 				"domain_path" : "domain and path",
-				"schema_domain_path": "schema, domain and path"
+				"schema_domain_path": "schema, domain and path",
+				"full_url" : "full URL"
 			}
 		}
 	)
