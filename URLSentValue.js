@@ -1,6 +1,11 @@
 var URLSentValue = function() {
-	this.evaluate = function() {
-		var exchange = this.req.getLastExchange();
+	this.evaluate = function(context) {
+		var exchange;
+		if(this.req) {
+			exchange = this.req.getLastExchange();
+		} else {
+			exchange = context.getCurrentRequest().getLastExchange();
+		}
 		var url = exchange.requestUrl;
 		var schema = "";
 		var domain = "";
@@ -34,6 +39,8 @@ var URLSentValue = function() {
 		}
 		else if (this.part === "schema_domain_path") {			
 			return schema + domain + path;
+		} else if (this.part === "full_url") {
+			return url;
 		}
 		else {
 			return "";
@@ -43,7 +50,11 @@ var URLSentValue = function() {
 
 
 	this.text = function(context) {
-		return this.req.name + " ➤ ";
+		if(this.req) {
+			return this.req.name;
+		} else {
+			return null;
+		}
 	}
 }
 
@@ -64,7 +75,8 @@ URLSentValue.inputs = [
 				"path" : "path",
 				"schema_domain" : "schema and domain",
 				"domain_path" : "domain and path",
-				"schema_domain_path": "schema, domain and path"
+				"schema_domain_path": "schema, domain and path",
+				"full_url" : "full URL"
 			}
 		}
 	)
