@@ -1,6 +1,11 @@
 var URLSentValue = function() {
-	this.evaluate = function() {
-		var exchange = this.req.getLastExchange();
+	this.evaluate = function(context) {
+		var exchange;
+		if(this.req) {
+			exchange = this.req.getLastExchange();
+		} else {
+			exchange = context.getCurrentRequest().getLastExchange();
+		}
 		var url = exchange.requestUrl;
 		var schema = "";
 		var domain = "";
@@ -43,7 +48,11 @@ var URLSentValue = function() {
 
 
 	this.text = function(context) {
-		return this.req.name + " ➤ ";
+		if(this.req) {
+			return this.req.name;
+		} else {
+			return "";
+		}
 	}
 }
 
