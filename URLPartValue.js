@@ -1,12 +1,6 @@
-var URLSentValue = function() {
+var URLPartValue = function() {
 	this.evaluate = function(context) {
-		var exchange;
-		if(this.req) {
-			exchange = this.req.getLastExchange();
-		} else {
-			exchange = context.getCurrentRequest().getLastExchange();
-		}
-		var url = exchange.requestUrl;
+		var url = this.req;
 		var schema = "";
 		var domain = "";
 		var path = "";
@@ -41,8 +35,9 @@ var URLSentValue = function() {
 			return schema + domain + path;
 		} else if (this.part === "full_url") {
 			return url;
-		}
-		else {
+		} else if (this.part == "domain_without_port") {
+			return domain.split(":")[0];
+		} else {
 			return "";
 		}
 	}
@@ -58,12 +53,12 @@ var URLSentValue = function() {
 	}
 }
 
-URLSentValue.identifier = "com.luckymarmot.URLSentValue";
+URLPartValue.identifier = "io.alphacoders.URLPartValue";
 
-URLSentValue.title = "URL Sent Value";
+URLPartValue.title = "URL Part Value";
 
-URLSentValue.inputs = [
-	InputField("req", "Source Request", "Request"),
+URLPartValue.inputs = [
+	InputField("req", "Source URL", "String"),
 	InputField(
 		"part",
 		"Part of the URL",
@@ -72,6 +67,7 @@ URLSentValue.inputs = [
 			{
 				"schema" : "schema",
 				"domain" : "domain",
+				"domain_without_port" : "domain without port",
 				"path" : "path",
 				"schema_domain" : "schema and domain",
 				"domain_path" : "domain and path",
@@ -82,4 +78,4 @@ URLSentValue.inputs = [
 	)
 ]
 
-registerDynamicValueClass(URLSentValue);
+registerDynamicValueClass(URLPartValue);
